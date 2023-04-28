@@ -4,7 +4,6 @@ public class Mountain {
 
     private String name;
     private String type;
-    pri
 
     Mountain(String name, String type){
         this.name = name;
