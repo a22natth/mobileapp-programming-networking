@@ -22,19 +22,22 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private final String JSON_FILE = "mountains.json";
     private ArrayList<Mountain> listOfMountains = new ArrayList<>();
     private com.example.networking.RecyclerViewAdapter RecyclerViewAdapter;
-    private List<RecyclerViewItem> items;
+    private List<RecyclerViewItem> items = new ArrayList<>();
 
+    RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       new JsonFile(this, this).execute(JSON_FILE);
+        //     new JsonFile(this, this).execute(JSON_FILE);
+        items.add(new RecyclerViewItem("hej1"));
+        items.add(new RecyclerViewItem("hej2"));
+        items.add(new RecyclerViewItem("hej3"));
+        items.add(new RecyclerViewItem("hej4"));
 
-
-       
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
+        adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
             @Override
             public void onClick(RecyclerViewItem item) {
                 Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         Log.d("MainActivity", json);
         try {
             JSONArray jsonHolder = new JSONArray(json);
-            
+
             //JSONObject kinnekulle = (JSONObject) jsonHolder.get(0);
             //Log.d("MainActivity_Kinnekulle", kinnekulle.getString("name"));
 
@@ -67,7 +70,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             Log.d("MainActivity_Mountains", listOfMountains.size() + "");
             for(Mountain m : listOfMountains){
                 Log.d("MainActivity_Mountains", m.getName() + " " + m.getType());
+                items.add(new RecyclerViewItem(m.getName()));
             }
+            adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("MainActivity_JSONException", "fel");
@@ -75,3 +80,4 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     }
 
 }
+
