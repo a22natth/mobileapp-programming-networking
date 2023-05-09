@@ -45,21 +45,18 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
-
-        items.add(new RecyclerViewItem("hello"));
-
     }
 
     @Override
     public void onPostExecute(String json) {
         Log.d("MainActivity", json);
 
+
         Gson gson = new Gson();
         json = gson.toJson(listOfMountains);
         Mountain mountain = gson.fromJson(json, Mountain.class);
         Type type = new TypeToken<List<Mountain>>() {}.getType();
         List<Mountain> listOfMountains = gson.fromJson(json, type);
-
 
 
         try {
@@ -90,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         }
     }
 
-
-
 }
+
+
 
