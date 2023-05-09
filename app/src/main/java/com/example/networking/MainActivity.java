@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     public void onPostExecute(String json) {
         Log.d("MainActivity", json);
 
-
         Gson gson = new Gson();
         json = gson.toJson(listOfMountains);
         Mountain mountain = gson.fromJson(json, Mountain.class);
