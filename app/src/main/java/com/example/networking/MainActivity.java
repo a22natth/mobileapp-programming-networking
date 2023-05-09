@@ -8,10 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +34,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //     new JsonFile(this, this).execute(JSON_FILE);
-        items.add(new RecyclerViewItem("hej1"));
-        items.add(new RecyclerViewItem("hej2"));
-        items.add(new RecyclerViewItem("hej3"));
-        items.add(new RecyclerViewItem("hej4"));
-
         adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
             @Override
             public void onClick(RecyclerViewItem item) {
@@ -48,11 +45,24 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
+
+        items.add(new RecyclerViewItem("hello"));
+
     }
 
     @Override
     public void onPostExecute(String json) {
         Log.d("MainActivity", json);
+
+
+        Gson gson = new Gson();
+        json = gson.toJson(listOfMountains);
+        Mountain mountain = gson.fromJson(json, Mountain.class);
+        Type type = new TypeToken<List<Mountain>>() {}.getType();
+        List<Mountain> listOfMountains = gson.fromJson(json, type);
+
+
+
         try {
             JSONArray jsonHolder = new JSONArray(json);
 
@@ -62,22 +72,26 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             for(int i = 0; i < jsonHolder.length(); i++){
                 JSONObject elements = (JSONObject) jsonHolder.get(i);
                 Log.d("MainActivity_JSON", elements.getString("name"));
-                Log.d("MainActivity_JSON", elements.getString("type"));
+
                 String name = elements.getString("name");
-                String type = elements.getString("type");
-                listOfMountains.add(new Mountain(name, type));
+                String type1 = elements.getString("type");
+                listOfMountains.add(new Mountain(name, type1));
             }
             Log.d("MainActivity_Mountains", listOfMountains.size() + "");
             for(Mountain m : listOfMountains){
-                Log.d("MainActivity_Mountains", m.getName() + " " + m.getType());
+                Log.d("MainActivity_Mountains", m.getName() + " ");
                 items.add(new RecyclerViewItem(m.getName()));
+
             }
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("MainActivity_JSONException", "fel");
+
         }
     }
+
+
 
 }
 

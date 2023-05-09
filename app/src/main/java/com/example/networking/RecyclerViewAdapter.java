@@ -1,4 +1,3 @@
-
 package com.example.networking;
 
 import android.content.Context;
@@ -60,5 +59,4 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         void onClick(RecyclerViewItem item);
     }
 }
-
 

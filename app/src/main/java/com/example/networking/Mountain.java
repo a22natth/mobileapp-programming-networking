@@ -12,10 +12,9 @@ public class Mountain {
     private String location;
     private String category;
     @SerializedName("size")
-            private int meters;
+    private int meters;
     @SerializedName("cost")
     private Auxdata auxdata;
-
 
 
     Mountain(String name, String type){
@@ -30,4 +29,10 @@ public class Mountain {
     public String getType(){
         return type;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
+
