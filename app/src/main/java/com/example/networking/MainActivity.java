@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
     private final String JSON_FILE = "mountains.json";
-    private ArrayList<Mountain> listOfMountains = new ArrayList<>();
+    //private ArrayList<Mountain> listOfMountains = new ArrayList<>();
     private com.example.networking.RecyclerViewAdapter RecyclerViewAdapter;
-    private List<RecyclerViewItem> items = new ArrayList<>();
+    //private List<RecyclerViewItem> items = new ArrayList<>();
 
     RecyclerViewAdapter adapter;
 
@@ -34,17 +34,16 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
-            @Override
-            public void onClick(RecyclerViewItem item) {
-                Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        adapter = new RecyclerViewAdapter(this);
         RecyclerView view = findViewById(R.id.recycler_view);
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
+//        items.add(new RecyclerViewItem("hej"));
+//        items.add(new RecyclerViewItem("hej2"));
+
+        //new JsonTask(this).execute(JSON_URL);
+        new JsonFile(this,this).execute(JSON_FILE);
     }
 
     @Override
@@ -53,12 +52,12 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
 
         Gson gson = new Gson();
-        json = gson.toJson(listOfMountains);
-        Mountain mountain = gson.fromJson(json, Mountain.class);
+        //json = gson.toJson(listOfMountains);
+       // Mountain mountain = gson.fromJson(json, Mountain.class);
         Type type = new TypeToken<List<Mountain>>() {}.getType();
         List<Mountain> listOfMountains = gson.fromJson(json, type);
 
-
+/*
         try {
             JSONArray jsonHolder = new JSONArray(json);
 
@@ -73,19 +72,21 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                 String type1 = elements.getString("type");
                 listOfMountains.add(new Mountain(name, type1));
             }
+            */
+
             Log.d("MainActivity_Mountains", listOfMountains.size() + "");
             for(Mountain m : listOfMountains){
                 Log.d("MainActivity_Mountains", m.getName() + " ");
-                items.add(new RecyclerViewItem(m.getName()));
+                adapter.items.add(m);
 
             }
             adapter.notifyDataSetChanged();
-        } catch (JSONException e) {
+        } /*catch (JSONException e) {
             e.printStackTrace();
             Log.d("MainActivity_JSONException", "fel");
 
         }
-    }
+    }*/
 
 }
 

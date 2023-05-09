@@ -14,6 +14,7 @@ public class Mountain {
     @SerializedName("size")
     private int meters;
     @SerializedName("cost")
+    private int feet;
     private Auxdata auxdata;
 
 
@@ -24,6 +25,11 @@ public class Mountain {
 
     public String getName(){
         return name;
+    }
+
+
+    public String getLocation() {
+        return location;
     }
 
     public String getType(){

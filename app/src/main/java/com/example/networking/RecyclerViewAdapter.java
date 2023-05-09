@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<RecyclerViewItem> items;
+    public List<Mountain> items;
     private LayoutInflater layoutInflater;
-    private OnClickListener onClickListener;
 
-    RecyclerViewAdapter(Context context, List<RecyclerViewItem> items, OnClickListener onClickListener) {
+
+    RecyclerViewAdapter(Context context) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.items = items;
-        this.onClickListener = onClickListener;
+        this.items = new ArrayList<>();
+
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.title.setText(items.get(position).getTitle());
+        holder.title.setText(items.get(position).getName()+items.get(position).getLocation());
     }
 
     @Override
@@ -40,19 +40,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
 
         ViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
+
             title = itemView.findViewById(R.id.title);
         }
 
-        @Override
-        public void onClick(View view) {
-            onClickListener.onClick(items.get(getAdapterPosition()));
-        }
     }
 
     public interface OnClickListener {
