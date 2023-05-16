@@ -24,9 +24,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
     private final String JSON_FILE = "mountains.json";
-    //private ArrayList<Mountain> listOfMountains = new ArrayList<>();
     private com.example.networking.RecyclerViewAdapter RecyclerViewAdapter;
-    //private List<RecyclerViewItem> items = new ArrayList<>();
+
 
     RecyclerViewAdapter adapter;
 
@@ -39,40 +38,19 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
-//        items.add(new RecyclerViewItem("hej"));
-//        items.add(new RecyclerViewItem("hej2"));
+        new JsonTask(this).execute(JSON_URL);
 
-        //new JsonTask(this).execute(JSON_URL);
-        new JsonFile(this,this).execute(JSON_FILE);
     }
 
     @Override
     public void onPostExecute(String json) {
         Log.d("MainActivity", json);
 
-
         Gson gson = new Gson();
-        //json = gson.toJson(listOfMountains);
-       // Mountain mountain = gson.fromJson(json, Mountain.class);
+
         Type type = new TypeToken<List<Mountain>>() {}.getType();
         List<Mountain> listOfMountains = gson.fromJson(json, type);
 
-/*
-        try {
-            JSONArray jsonHolder = new JSONArray(json);
-
-            //JSONObject kinnekulle = (JSONObject) jsonHolder.get(0);
-            //Log.d("MainActivity_Kinnekulle", kinnekulle.getString("name"));
-
-            for(int i = 0; i < jsonHolder.length(); i++){
-                JSONObject elements = (JSONObject) jsonHolder.get(i);
-                Log.d("MainActivity_JSON", elements.getString("name"));
-
-                String name = elements.getString("name");
-                String type1 = elements.getString("type");
-                listOfMountains.add(new Mountain(name, type1));
-            }
-            */
 
             Log.d("MainActivity_Mountains", listOfMountains.size() + "");
             for(Mountain m : listOfMountains){
@@ -81,12 +59,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
             }
             adapter.notifyDataSetChanged();
-        } /*catch (JSONException e) {
-            e.printStackTrace();
-            Log.d("MainActivity_JSONException", "fel");
-
         }
-    }*/
 
 }
 
